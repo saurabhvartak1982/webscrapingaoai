@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatapi-deployment
+  labels:
+    app: chatapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatapi
+  template:
+    metadata:
+      labels:
+        app: chatapi
+        #azure.workload.identity/use: "true"
+    spec:
+      #serviceAccountName: <Your service account name here>
+      containers:
+      - name: chatapi
+        image: <container image name>
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatapi-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: chatapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000 

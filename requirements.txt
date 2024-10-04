@@ -1,0 +1,10 @@
+requests==2.32.3
+bs4==0.0.2
+langchain-community==0.2.16
+langchain_openai==0.1.23
+azure-search-documents==11.5.1
+azure-identity==1.17.1
+python-dotenv==1.0.0
+fastapi==0.95.2
+uvicorn==0.22.0
+httpx
