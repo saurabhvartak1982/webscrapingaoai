@@ -2,8 +2,8 @@ import httpx
 # import time
 
 def main():
-    url = "http://172.179.112.171:80/chat"
-    payload = {"query": "Write 5 lines on Mumbai"}
+    url = "http://<your-server>/chat"
+    payload = {"query": "Write 10 lines on Mumbai"}
 
     # Sending a POST request and handling the stream
     with httpx.stream("POST", url, json=payload, timeout=60.0) as response:

@@ -14,6 +14,7 @@ It also has an API which accepts questions from a user and passes them on to an 
 ### Scraping and Vectorizing
 **scraper.py**: This Python program scrapes the HTML contents from a bunch of URLs passed to it as parameters. This code is triggered by **orchestrator.py**.
 **recursive_scraper.py**: This Python program recursively scrapes the HTML contents from the base URL and all the URLs that are referred in the HTML of the base URL. The **max depth** variable in this program to control the depth of the URL traversing from the base URL. This code is triggered by **orchestrator.py**.
+**scraperimg.py**: This is the scraper which also deciphers the images in the webpages.
 **indexer.py**: This Python program vectorizes and indexes the scraped content. The vectors are stored in Azure AI Search. This code is triggered by **orchestrator.py**.
 
 ### Test clients
