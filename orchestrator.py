@@ -1,6 +1,7 @@
 # from scraper import Scraper
-from scraperimg import Scraper
+# from scraperimg import Scraper
 # from recursive_scraper import RecursiveScraper
+from pdftextextractor import PDFTextExtractor
 # from indexer import Indexer
 # from retriever import Retriever
 # from llmchatbot import Chatbot
@@ -9,19 +10,19 @@ def main():
     #--Invocation code for Scraper begins here--
 
     # List of URLs to scrape
-    urls = [
-        'https://example.com',
-        # '<url2>',
-        # '<url3>',
-        # '<url4>',
-        # '<url5>',
-        # '<url6>'
+    # urls = [
+    #     'https://www.ibm.com/topics/neural-networks',
+    #     # '<url2>',
+    #     # '<url3>',
+    #     # '<url4>',
+    #     # '<url5>',
+    #     # '<url6>'
         
-    ]
+    # ]
 
-    objScraper = Scraper(urls)
-    all_scraped_data = objScraper.get_scraped_data()
-    print(all_scraped_data)
+    # objScraper = Scraper(urls)
+    # all_scraped_data = objScraper.get_scraped_data()
+    # print(all_scraped_data)
     #--Invocation code for Scraper ends here--
 
     #--Invocation code for RecursiveScraper begins here--
@@ -31,6 +32,18 @@ def main():
     # scraped_content = scraper.get_scraped_data()
     # print(scraped_content)
     #--Invocation code for RecursiveScraper ends here--
+
+    ##--Invocation code for pdftextextractor begins here--
+    url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    
+    # Create an instance of the class
+    pdf_extractor = PDFTextExtractor(url)
+    
+    # Get the extracted text
+    extracted_text = pdf_extractor.get_pdf_text()
+    print(extracted_text)
+
+    ##--Invocation code for pdftextextractor ends here--
 
     # #--Invocation code for Indexer begins here--
     # objIndexer = Indexer(all_scraped_data)
