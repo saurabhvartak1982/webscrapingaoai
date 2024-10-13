@@ -19,6 +19,7 @@ class Chatbot:
         azure_openai_api_key = os.getenv("AZURE_OPENAI_API_KEY")
         azure_openai_api_version = os.getenv("AZURE_OPENAI_API_VERSION")
         azure_deployment = os.getenv("AZURE_LLM_DEPLOYMENT")
+        azure_aisearch_index_name = os.getenv("AZURE_AI_SEARCH_INDEX_NAME")
         
         # Initialize the Azure OpenAI model with streaming enabled
         self.chatbot = AzureChatOpenAI(
@@ -35,12 +36,12 @@ class Chatbot:
 
         # Initialize the retriever.
         self.retriever = AzureAISearchRetriever(
-            content_key="content", top_k=1
+            content_key="content", top_k=3, index_name=azure_aisearch_index_name
         )
 
         # Prompt template
         self.template = ChatPromptTemplate.from_messages([
-            ("system", "You are a helpful AI bot and your name is MyBot. Use the following context for answering: {context}"),
+            ("system", "You are a helpful AI bot that helps people find information. Please refer only to the context for answering the questions: {context}"),
             MessagesPlaceholder("history", optional=True),
             ("human", "{user_input}"),
         ])

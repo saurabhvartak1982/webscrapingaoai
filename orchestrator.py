@@ -1,9 +1,10 @@
 # from scraper import Scraper
+from pdfreader import PDFReader
 # from scraperimg import Scraper
 # from recursive_scraper import RecursiveScraper
-from pdftextextractor import PDFTextExtractor
 # from indexer import Indexer
 # from retriever import Retriever
+# from llmbot import LLMBot
 # from llmchatbot import Chatbot
 
 def main():
@@ -11,13 +12,12 @@ def main():
 
     # List of URLs to scrape
     # urls = [
-    #     'https://www.ibm.com/topics/neural-networks',
-    #     # '<url2>',
-    #     # '<url3>',
-    #     # '<url4>',
-    #     # '<url5>',
-    #     # '<url6>'
-        
+    #     '<url1>',
+    #     '<url2>',
+    #     '<url3>',
+    #     '<url4>',
+    #     '<url5>',
+    #     '<url6>'
     # ]
 
     # objScraper = Scraper(urls)
@@ -33,17 +33,9 @@ def main():
     # print(scraped_content)
     #--Invocation code for RecursiveScraper ends here--
 
-    ##--Invocation code for pdftextextractor begins here--
-    url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-    
-    # Create an instance of the class
-    pdf_extractor = PDFTextExtractor(url)
-    
-    # Get the extracted text
-    extracted_text = pdf_extractor.get_pdf_text()
-    print(extracted_text)
-
-    ##--Invocation code for pdftextextractor ends here--
+    #--Invocation code for PDFReader begins here--
+    pdf_reader = PDFReader()
+    all_scraped_data = pdf_reader.read_pdf("https://mypdfurl/mypdf.pdf")
 
     # #--Invocation code for Indexer begins here--
     # objIndexer = Indexer(all_scraped_data)
@@ -51,11 +43,18 @@ def main():
 
 
     # # #--Invocation code for Retriever begins here--
-    # objRetriever = Retriever("Tell me 10 things about Mumbai")
+    # question = "Tell me 10 things about Mumbai"
+    # objRetriever = Retriever(question)
     # context = objRetriever.fetch_data()
-    # print("Context: ", context)
+    #print("Context: ", context)
     # # #--Invocation code for Retriever ends here--
 
+    # #--Invocation code for LLMBot begins here--
+    # client = LLMBot()
+    # response = client.get_response(context, question)
+    # print(response)
+
+    # #--Invocation code for LLMBot ends here--
 
     # #--Invocation code for Chatbot begins here--
     # chatbot = Chatbot()

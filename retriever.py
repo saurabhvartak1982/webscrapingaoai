@@ -45,5 +45,8 @@ class Retriever:
             k=3,
             search_type="hybrid",
         )
-        
-        return docs[0].page_content
+
+        # Collect all page contents
+        all_page_contents = [doc.page_content for doc in docs]
+ 
+        return all_page_contents
