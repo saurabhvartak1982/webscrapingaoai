@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Chat Interface</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Chat container */
+        .chat-box {
+            width: 100%;
+            max-width: 900px; /* Increased width for a wider view */
+            height: 80vh;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Messages area */
+        .messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #ddd;
+            scroll-behavior: smooth;
+        }
+
+        /* Message styles */
+        .messages .user-message {
+            text-align: right;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 15px;
+            margin: 10px 0;
+            display: inline-block;
+            max-width: 60%;  /* Reduce max width for better readability on wide view */
+            float: right;  /* Align to the right */
+            clear: both;
+        }
+
+        .messages .bot-message {
+            text-align: left;
+            background-color: #f1f0f0;
+            padding: 10px;
+            border-radius: 15px;
+            margin: 10px 0;
+            display: inline-block;
+            max-width: 60%;  /* Reduce max width for better readability on wide view */
+            float: left;  /* Align to the left */
+            clear: both;
+        }
+
+        .input-group {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            background: #ffffff;
+        }
+
+        /* Input and button styling */
+        .input-group input {
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            outline: none;
+            flex-grow: 1;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #007bff;
+        }
+
+        .input-group button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .input-group button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Ensure chat box stays consistent on mobile devices */
+        @media only screen and (max-width: 600px) {
+            .chat-box {
+                height: 90vh;
+                max-width: 100%;
+                border-radius: 0;
+            }
+
+            .messages .user-message, .messages .bot-message {
+                max-width: 80%; /* Adjust for smaller screens */
+            }
+        }
+    </style>
+    <script>
+        async function typewriterEffect(element, text, delay = 50) {
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text.charAt(i);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                element.scrollTop = element.scrollHeight;  // Scroll to bottom as new characters are added
+            }
+        }
+
+        async function sendMessage() {
+            const url = "http://localhost:8000/chat";
+
+            // Get the values from input fields
+            const userQuery = document.getElementById("userQuery").value;
+            const sessionId = document.getElementById("sessionId").value;
+            const usertoken = document.getElementById("usertoken").value;
+
+            const payload = {
+                query: userQuery,
+                sessionId: sessionId,
+                usertoken: usertoken
+            };
+
+            // Display user's message in the chat
+            const messagesDiv = document.getElementById("messages");
+            const userMessage = document.createElement("div");
+            userMessage.className = "user-message";
+            userMessage.textContent = userQuery;
+            messagesDiv.appendChild(userMessage);
+
+            // Clear the input field for query
+            document.getElementById("userQuery").value = '';
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let partial = "";
+
+                const botMessageDiv = document.createElement("div");
+                botMessageDiv.className = "bot-message";
+                messagesDiv.appendChild(botMessageDiv);
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    // Concatenate chunks and properly decode them
+                    partial += decoder.decode(value, { stream: true });
+                    
+                    // Typewriter effect for the current chunk
+                    await typewriterEffect(botMessageDiv, partial);
+
+                    partial = "";  // Clear after displaying
+
+                    // Scroll to the bottom of the messages
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }
+
+            } catch (error) {
+                console.error("There was a problem with the fetch operation:", error);
+                const errorMessage = document.createElement("div");
+                errorMessage.className = "bot-message";
+                errorMessage.textContent = "Error: " + error.message;
+                messagesDiv.appendChild(errorMessage);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="chat-box">
+    <!-- Messages -->
+    <div id="messages" class="messages"></div>
+
+    <!-- Input fields for Session ID, User Token, and message -->
+    <div class="input-group">
+        <input type="text" id="sessionId" placeholder="Session ID" />
+        <input type="text" id="usertoken" placeholder="User Token" />
+    </div>
+    
+    <div class="input-group">
+        <input type="text" id="userQuery" placeholder="Type your message here..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+</body>
+</html>
