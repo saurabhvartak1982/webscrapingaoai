@@ -1,10 +1,20 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 from llmchatbot import Chatbot  # Import the Chatbot class from chatbot.py
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Add CORS middleware to allow requests from any origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (you can restrict this to specific origins)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Allow all headers (you can restrict this to specific headers)
+)
 
 # Initialize the chatbot
 chatbot = Chatbot()
