@@ -2,22 +2,23 @@
 from pdfreader import PDFReader
 # from scraperimg import Scraper
 # from recursive_scraper import RecursiveScraper
-# from indexer import Indexer
+from indexer_chunking import Indexer
 # from retriever import Retriever
 # from llmbot import LLMBot
 # from llmchatbot import Chatbot
+# import imagedescriber
 
 def main():
     #--Invocation code for Scraper begins here--
 
     # List of URLs to scrape
     # urls = [
-    #     '<url1>',
-    #     '<url2>',
-    #     '<url3>',
-    #     '<url4>',
-    #     '<url5>',
-    #     '<url6>'
+        # '<url1>',
+        # '<url2>',
+        # '<url3>',
+        # '<url4>',
+        # '<url5>',
+        # '<url6>'
     # ]
 
     # objScraper = Scraper(urls)
@@ -35,10 +36,10 @@ def main():
 
     #--Invocation code for PDFReader begins here--
     pdf_reader = PDFReader()
-    all_scraped_data = pdf_reader.read_pdf("https://mypdfurl/mypdf.pdf")
+    all_scraped_data = pdf_reader.read_pdf("https://mywebsite/myfile.pdf")
 
     # #--Invocation code for Indexer begins here--
-    # objIndexer = Indexer(all_scraped_data)
+    objIndexer = Indexer(all_scraped_data)
     # #--Invocation code for Indexer ends here--
 
 
@@ -46,7 +47,6 @@ def main():
     # question = "Tell me 10 things about Mumbai"
     # objRetriever = Retriever(question)
     # context = objRetriever.fetch_data()
-    #print("Context: ", context)
     # # #--Invocation code for Retriever ends here--
 
     # #--Invocation code for LLMBot begins here--
@@ -65,6 +65,12 @@ def main():
     # for response_chunk in chatbot.get_response(user_query):
     #     print(response_chunk, end="", flush=True)  # Print each streamed chunk
     # #--Invocation code for Chatbot ends here--
+
+    #--Invocation code for ImageDescriber begins here--
+    # image_path = "https://cdn.gyftr.com/promotionwallet/brand/indusindwelcomegift/11715079989-_0018_Hamleys.png"
+    # response = imagedescriber.describe_image(image_path)
+    # print(response)
+    #--Invocation code for ImageDescriber ends here--
 
 if __name__ == "__main__":
     main()

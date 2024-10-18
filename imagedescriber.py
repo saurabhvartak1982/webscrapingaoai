@@ -21,6 +21,7 @@ def describe_image(image_url):
                 { 
                     "type": "text", 
                     "text": "Describe this picture directly without using the words - this picture shows ... or .. this image captures:" 
+                    
                 },
                 { 
                     "type": "image_url",
