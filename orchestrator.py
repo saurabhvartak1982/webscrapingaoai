@@ -83,7 +83,7 @@ def main():
     # #--Invocation code for Chatbot ends here--
 
     #--Invocation code for ImageDescriber begins here--
-    # image_path = "https://cdn.gyftr.com/promotionwallet/brand/indusindwelcomegift/11715079989-_0018_Hamleys.png"
+    # image_path = "https://example.com/sampleimage.png"
     # response = imagedescriber.describe_image(image_path)
     # print(response)
     #--Invocation code for ImageDescriber ends here--
