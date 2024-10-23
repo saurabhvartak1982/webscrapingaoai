@@ -5,14 +5,14 @@ import asyncio
 # from recursive_scraper import RecursiveScraper
 # from xlreader import ExcelReader
 # from indexer_chunking import Indexer
-from retriever import Retriever
+# from retriever_async import Retriever
 # from llmbot import LLMBot
-# from llmchatbot import Chatbot
+from llmchatbot import Chatbot
 # import imagedescriber
 
-def main():
+# def main():
 # uncomment below line invoke Chatbot().get_response()
-# async def main():
+async def main():
     #--Invocation code for Scraper begins here--
 
     # List of URLs to scrape
@@ -56,11 +56,12 @@ def main():
     # #--Invocation code for Indexer ends here--
 
 
-    # # #--Invocation code for Retriever begins here--
-    question = "Tell me 10 things about Mumbai"
-    objRetriever = Retriever(question)
-    context = objRetriever.fetch_data()
-    # # #--Invocation code for Retriever ends here--
+    # #--Invocation code for Retriever begins here--
+    # question = "Tell me 10 lines on Mumbai."
+    # objRetriever = Retriever()
+    # context = await objRetriever.fetch_data(question)
+    # print(context)
+    # #--Invocation code for Retriever ends here--
 
     # #--Invocation code for LLMBot begins here--
     # client = LLMBot()
@@ -69,18 +70,18 @@ def main():
 
     # #--Invocation code for LLMBot ends here--
 
-    # #--Invocation code for Chatbot begins here--
-    # chatbot = Chatbot()
+    #--Invocation code for Chatbot begins here--
+    chatbot = Chatbot()
     
-    # user_query = "Tell me 10 things about Mumbai"
-    # session_id = "session_12345"
-    # user_token = "user_token_abcde"
+    user_query = "Tell me 10 lines on Mumbai."
+    session_id = "session_12345"
+    user_token = "user_token_abcde"
 
     # # Call the get_response method and handle the streamed output
-    # async for chunk in chatbot.get_response(user_query, session_id, user_token):
-    #     # Process each chunk as it arrives
-    #     print(chunk, end='')  # Print each chunk to the console
-    # #--Invocation code for Chatbot ends here--
+    async for chunk in chatbot.get_response(user_query, session_id, user_token):
+        # Process each chunk as it arrives
+        print(chunk, end='')  # Print each chunk to the console
+    #--Invocation code for Chatbot ends here--
 
     #--Invocation code for ImageDescriber begins here--
     # image_path = "https://example.com/sampleimage.png"
@@ -89,8 +90,6 @@ def main():
     #--Invocation code for ImageDescriber ends here--
 
 if __name__ == "__main__":
-    main()
+    # main()
     # uncomment below line invoke Chatbot().get_response()
-    # asyncio.run(main())
-
-
+    asyncio.run(main())
