@@ -71,14 +71,15 @@ class Chatbot:
             for item in self.session_histories[session_id]
         ]
 
-        # Pass the inputs to the chain and handle streaming
-        appended_chunks = ""
-        for response_chunk in chain.invoke({
+        response_chunks = await chain.ainvoke({
             "history": message_history,
             "context": formatted_context,
             "user_input": user_query
-        }):
-            # Stream the response chunk back to the caller
+        })
+
+        # Append the response chunks to the conversation history
+        appended_chunks = ""
+        for response_chunk in response_chunks:
             appended_chunks += response_chunk
             yield response_chunk
 
