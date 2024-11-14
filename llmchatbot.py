@@ -36,14 +36,14 @@ class Chatbot:
 
         # Prompt template
         self.template = ChatPromptTemplate.from_messages([
-            ("system", "You are a helpful AI bot that helps people find information. Please refer only to the context for answering the questions: {context}"),
+            ("system", "You are a helpful AI bot that helps people find information. For each response, if any sources or reference materials are used or can provide additional context, include a list of reference links at the end of your answer. Each reference link should point directly to the source of information, enabling the user to verify the content or learn more. Please refer only to the context for answering the questions: {context}."),
             MessagesPlaceholder("history", optional=True),
             ("human", "{user_input}"),
         ])
 
     def format_docs(self, docs):
         """Helper function to format documents retrieved by the retriever."""
-        return "\n\n".join(doc.page_content for doc in docs)
+        return "\n\n".join(f"SourceURL: {doc.metadata['url']}\nContent: {doc.page_content}" for doc in docs)
 
     async def get_response(self, user_query, session_id, user_token):
         # Retrieve or initialize history for the session
