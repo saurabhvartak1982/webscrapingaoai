@@ -36,7 +36,12 @@ class Chatbot:
 
         # Prompt template
         self.template = ChatPromptTemplate.from_messages([
-            ("system", "You are a helpful AI bot that helps people find information. For each response, if any sources or reference materials are used or can provide additional context, include a list of reference links at the end of your answer. Each reference link should point directly to the source of information, enabling the user to verify the content or learn more. Please refer only to the context for answering the questions: {context}."),
+            ("system", """You are a helpful AI bot that provides information with clear sources. For each response:
+                1. Generate a clear and concise answer based on the provided context.
+                2. Identify the specific text or snippet used from the context that directly supports your answer. Include this as a “Reference Text” section, and expand it without fail to include the sentence or two immediately before and after the relevant snippet, to provide better continuity for the reader.
+                3. If any sources or reference materials were used, include the URL as a “Reference Link” at the end of your response. Each reference link should point directly to the source to enable verification.
+
+                Only use information from the provided context: {context}."""),  # Context placeholder
             MessagesPlaceholder("history", optional=True),
             ("human", "{user_input}"),
         ])
