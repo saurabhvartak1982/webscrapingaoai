@@ -1,4 +1,5 @@
 import os
+import re
 from langchain_community.vectorstores.azuresearch import AzureSearch
 from langchain_openai import AzureOpenAIEmbeddings, OpenAIEmbeddings
 from azure.search.documents.indexes.models import (
@@ -85,7 +86,7 @@ class Indexer:
         )
 
         documents_to_add = []
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=500)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=300)
 
         for url, content in self.all_scraped_data.items():
             content_text = ' '.join(content)
@@ -100,8 +101,9 @@ class Indexer:
 
             # Create unique doc_ids for each chunk
             for i, chunk in enumerate(chunks):
-                doc_id = f"{url}_chunk_{i}"
-
+                # doc_id = f"{url}_chunk_{i}"
+                modified_url = re.sub(r'[:\/?.#]', '_', url)
+                doc_id = f"{modified_url}_chunk_{i}"
                 # Use the custom Document class
                 document = CustomDocument(
                     doc_id=doc_id, 

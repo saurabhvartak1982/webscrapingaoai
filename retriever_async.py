@@ -37,7 +37,7 @@ class Retriever:
             # Perform a similarity search
             docs = await vector_store.asimilarity_search(
                 query=user_query,
-                k=15,
+                k=10,
                 search_type="hybrid",
             )
             return docs

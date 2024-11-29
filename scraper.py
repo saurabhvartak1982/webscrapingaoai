@@ -15,7 +15,7 @@ class Scraper:
             ordered_text = []
             # Extract text from span, li, p, td tags. This needs to be updated basis the webpages which are getting scraped.
             for element in body.descendants:
-                if element.name in ['span', 'li', 'p', 'td']:
+                if element.name in ['span', 'li', 'p', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
                     ordered_text.append(element.text.strip())
                 if element.name == 'div' and element.get('class') == ['card-body']:
                     child_divs = element.find_all('div')

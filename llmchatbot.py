@@ -35,11 +35,13 @@ class Chatbot:
         self.retriever = Retriever()
 
         # Prompt template
+        # 2. Identify the specific text or snippet used from the context that directly supports your answer. Include this as a “Reference Text” section, and expand it without fail to include the sentence or two immediately before and after the relevant snippet, to provide better continuity for the reader.
         self.template = ChatPromptTemplate.from_messages([
             ("system", """You are a helpful AI bot that provides information with clear sources. For each response:
                 1. Generate a clear and concise answer based on the provided context.
-                2. Identify the specific text or snippet used from the context that directly supports your answer. Include this as a “Reference Text” section, and expand it without fail to include the sentence or two immediately before and after the relevant snippet, to provide better continuity for the reader.
-                3. If any sources or reference materials were used, include the URL as a “Reference Link” at the end of your response. Each reference link should point directly to the source to enable verification.
+                2. If any sources or reference materials were used, include the URL as a “Reference Link” at the end of your response. Each reference link should point directly to the source to enable verification.
+                3. The reference data provided is in multiple chunks. There is some overlapping text between the chunks. You will need to first stitch the relevant chunks together and then formulate the answer.
+                4. The questions asked would be from multiple functional areas like Credit Cards, Loans, etc. You need to provide the answer strictly specific to the functional area on which the question is asked. For e.g., if the question is on Credit Cards, the answer should be strictly specific to Credit Cards.
 
                 Only use information from the provided context: {context}."""),  # Context placeholder
             MessagesPlaceholder("history", optional=True),
@@ -58,6 +60,10 @@ class Chatbot:
         # Retrieve context from the retriever
         retrieved_docs = await self.retriever.fetch_data(user_query)
         formatted_context = self.format_docs(retrieved_docs)
+
+        # print("***Reference docs for context***")
+        # print(formatted_context)
+        # print("***Context ends***")
 
         # Create the pipeline chain
         chain = (
