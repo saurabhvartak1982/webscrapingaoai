@@ -37,7 +37,7 @@ It also has an API which accepts questions from a user and passes them on to an 
 ### Scraping and Indexing
 1. Rename the sampleenv file to .env<br />
 2. Enter all the necessary parameter values in the .env file.<br />
-3. Refer to **orchestrator.py** for referring to the invocation code snippets for **scraper.py**, **recursive_scraper.py**, **indexer.py/indexer_chunking.py**.<br />
+3. Refer to **orchestrator.py** for referring to the invocation code snippets for **scraper.py**, **recursive_scraper.py** and **indexer.py/indexer_chunking.py**.<br />
 4. Invoke either **scraper.py** OR **recursive_scraper.py** for scraping the desired web pages and **indexer.py/indexer_chunking.py** to create the vectors of the scraped content and store the same in Azure AI Search.
 
 ### Containerize and host the chatapi on Kubernetes
