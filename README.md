@@ -8,7 +8,7 @@ It also has an API which accepts questions from a user and passes them on to an 
 ## Code files
 
 ### Environment set-up
-**sampleenv**: File comprising of all the required environment variables required by the prototype. This file needs to be renamed to **.env**.
+**sampleenv**: File comprising of all the required environment variables required by the prototype. This file needs to be renamed to **.env**. <br />
 **requirements.txt**: File mentioning all the packages to be used to run the prototype.
 
 ### Scraping and Vectorizing
